@@ -1,61 +1,66 @@
 ## Introduction
 
-This tutorial is designed to walk you through every aspect of Glue42 Core. Starting from a project setup with the [**Glue42 Core CLI**](../../glue42-core/what-is-glue42-core/core-concepts/cli/index.html), initiating [**Glue42 Clients**](../../glue42-core/what-is-glue42-core/core-concepts/glue42-client/index.html), extending the applications with Interop capabilities, window management functionality and shared contexts integration.
+This tutorial is designed to walk you through every aspect of **Glue42 Core**:
 
-The following guide is going to use Vanilla JS and keep everything as simple as possible. The goal here is not to make perfect production-ready applications, but for you to get a feel for Glue42 Core and how you can use the platform to make awesome applications.
+- project setup with the [**Glue42 Core CLI**](../../glue42-core/what-is-glue42-core/core-concepts/cli/index.html); 
+- initializing [**Glue42 Client**](../../glue42-core/what-is-glue42-core/core-concepts/glue42-client/index.html) applications;
+- extending the applications in the **Glue42 Core** project with [Interop](../../core/capabilities/interop/index.html), [Window Management](../../core/capabilities/window-management/index.html) and [Shared Contexts](../../core/capabilities/shared-contexts/index.html) functionalities;
 
-We also have a React tutorial, but we recommend going through this one first in order to learn Glue42 Core without the distractions of additional libraries and frameworks.
+The tutorial uses plain JavaScript and its goal is to show you how to use the **Glue42 Core** platform in your web projects.
 
-So what are we building? We are part of the IT department of a big multi-national bank and we have been tasked to create an application, which will be used by the bank's asset management department. This will be a multi-app project consisting of two applications:
-- **clients** - displays a full list of clients and their details
-- **stocks** - displays a full list of stocks with prices; whenever a stock is clicked the user should see that stock's details
+There are also [React](../react/index.html) and [Angular](../angular/index.html) tutorials, but we recommended that you complete the JavaScript tutorial first in order to get to know **Glue42 Core** concepts and capabilities without the distractions of additional libraries and frameworks.
 
-Those two applications must be hosted on the same domain where
-- /clients resolves to clients
-- /stocks resolves to stocks
+For the purpose of this tutorial, you are a part of the IT department of a big multi-national bank and you have been tasked to create an application that will be used by the bank Asset Management department. This will be a multi-app project consisting of two applications:
+- **Clients** - displays a full list of clients and their details;
+- **Stocks** - displays a full list of stocks with prices. When the user clicks a stock, its details should be displayed;
 
-As an end result our users want to be able to run two apps as Progressive Web Apps in separate windows, in order to take advantage of their multi-monitor setups. Also, our users want those apps, even though in separate windows, to be able to communicate with each other. For example, whenever a client is selected, the stocks app should show only that client's stocks and more, which you will learn along the way.
+The two applications must be hosted on the same domain where:
+- `/clients` resolves to the Clients app;
+- `/stocks` resolves to the Stocks app;
+
+As an end result, your users want to be able to run the two apps as Progressive Web Applications in separate windows in order to take advantage of their multi-monitor setups. Also, our users want these apps, even though in separate windows, to be able to communicate with each other. For example, when a client is selected, the stocks app should show only the selected client's stocks and so on.
 
 ## Prerequisites
 
-Before we continue there are few things that you need to be comfortable with
-- Basic JavaScript
-- JS array methods
-- Asynchronous programming with Promises
+This tutorial assumes that you have fundamental knowledge of JavaScript and asynchronous programming.
 
-It is also a good idea to keep our [**Glue42 Core CLI**](../../glue42-core/what-is-glue42-core/core-concepts/cli/index.html), [**Glue42 Client**](../../glue42-core/what-is-glue42-core/core-concepts/glue42-client/index.html) and [**Glue42 Web Reference API**](../../reference/core/latest/glue42%20web/index.html) sections close by for reference.
+It is also recommended that you use the [**Glue42 CLI**](../../core/core-concepts/cli/index.html), [Glue42 Environment](../../core/core-concepts/environment/overview/index.html), [**Glue42 Client**](../../core/core-concepts/glue42-client/overview/index.html) and [**Glue42 Web**](../../reference/core/latest/glue42%20web/index.html) API documentation as reference if necessary.
 
 ## Tutorial Structure
 
-The tutorial code is located in our [**GitHub repo**](https://github.com/Glue42/core). Inside the repo you wil find a directory `/tutorials` with the following structure:
+The tutorial code is located in the **Glue42 Core** [**GitHub repo**](https://github.com/Glue42/core). The repo contains a `/tutorials` directory with the following structure:
 
 ```cmd
 /tutorials
-  /guides
-    /vanilla-js
+    /angular
+        /solution
+        /start
+    /guides
+        /01_javascript
+        /02_react
+        /03_angular
+    /rest-server
+    /javascript
+        /solution
+        /start
     /react
-  /rest-server
-  /vanilla-js
-    /solution
-    /start
-  /react
-    /solution
-    /start
+        /solution
+        /start
 ```
 
-The `/guides` directory holds the `.md` files used to display this text information that you are reading right now.
-The `/vanilla-js` and `/react` directories hold the **start** files for each respective tutorial. This is your starting point. There is also **solution** directories, in case you would like to see our approach to the problems ahead.
-The `/rest-server` is a simple server which we use in the tutorials to serve us the `json` data that we need.
+- `/guides` - holds the tutorial text files;
+- `/angular`,`/javascript` and `/react` - hold the starting and solution files for each respective tutorial;
+- `/rest-server` - a simple server used in the tutorials to serve the data that you will need for the applications in JSON format;
 
-As you know Glue42 Core is an open-source project, so we welcome all feedback and contributions both to our code base and tutorials.
+**Glue42 Core** is an open-source project, and as such, all feedback and contributions regarding our code base and the tutorials are welcome.
 
-## 1. Setting Up
+## 1. Setup
 
-Okay, enough with the introduction, let's get started with the fun part.
+First, you need to get the tutorial code and familiarize yourself with it. Clone the **Glue42 Core** [GitHub repo](https://github.com/Glue42/core).
 
-### 1.1. Getting Started with the Tutorial Files
+### 1.1. Data REST Server
 
-First you need to get the tutorial code and get your self familiar with it. Clone our GitHub repo at `https://github.com/Glue42/core` and navigate to `/tutorials/rest-server`. This server is going to serve the data for our applications. All you need to do is:
+Navigate to the `/tutorials/rest-server` directory. This server is going to serve the data for our applications. Open a command prompt in the `/rest-server` directory and run the following commands:
 
 ```cmd
 npm i
@@ -63,46 +68,32 @@ npm i
 npm start
 ```
 
-This will launch the server at port **8080** and that's it, we will not be touching it any more.
+This will launch the server at port 8080.
 
-Next head over to `/tutorials/vanilla-js/start`. There are the start files for your project. You can either work directly here, or you can copy-paste the directory somewhere else, it is up to you. For simplicity, we will assume that we will be working in the start directory.
+### 1.2. Starting Files
 
-Let's go through the resources we have there:
-- `/assets` - holds shared assets for both applications like icons and `.css`.
-- `lib` - hold common libraries used by both applications. Actually there you will find only one library - the built Glue42 Web script.
-- `/clients` - this is our clients app, which consists of only an `index.html`, one script file and one `manifest.json`.
-- `/stocks` - this is our stocks app, it has the same elements as `clients`, with the addition of `/stocks/details`, which holds the `.html` and `.js` files for the stock details view.
-- `favicon.ico` - this is a standard favicon.
-- `package.json` - currently has one dependency - a simple http server to serve our start files.
-- `service-worker.js` - used by both applications in conjunction with the manifests in order to classify as **installable** [**PWA**](https://developer.mozilla.org/nl/docs/Web/Progressive_web_apps), but doesn't contain any meaningful logic.
+Next, go to the `/tutorials/javascript/start`. These are the start files for your project. You can copy or move the files to work somewhere else, but for the examples in this tutorial it is assumed that you are working in the `/start` directory.
 
-Now, let's launch the apps and see what we have. To do that:
+There you can find the following resources:
 
-```cmd
-npm i
+- `/assets` - holds shared assets for both applications like icons and `.css` files;
+- `/lib` - holds common libraries used by both applications - the built [**Glue42 Web**](../../reference/core/latest/glue42%20web/index.html) script;
+- `/clients` - the Clients app, which consists of only an `index.html`, a script file and a `manifest.json`;
+- `/stocks` - the Stocks app which has the same elements as the Clients app, with the addition of the `/stocks/details` directory, which holds the `.html` and `.js` files for the stock details view;
+- `favicon.ico` - a standard favicon;
+- `package.json` - a standard `package.json` file describing the project;
+- `service-worker.js` - used by both applications in conjunction with their manifests in order for the apps to be classified as installable [**Progressive Web Apps**](https://developer.mozilla.org/nl/docs/Web/Progressive_web_apps), but does not contain any meaningful logic;
 
-npm start
-```
+### 1.3. The Glue42 CLI
 
-This will launch a simple http-server which will host the entire `/start` directory at port **:4000**.
-
-Open the browser at `localhost:4000/clients` and check out the app. It is pretty straight forward - just a list of clients, fetched from the **rest server** we started before. Clicking on a client does nothing right now. But more importantly, if you look at the right side of the address bar, you will see an `install` icon, allowing you to install the app. Once installed you can launch it by going to `chrome://apps` (if you use Google Chrome) and clicking on the icon.
-
-Repeat this process with `localhost:4000/stocks`. Again, this is straight forward, nothing special, just a list of stocks. Once again we have the `install` icon, go ahead and install the app, just like the you did for `clients`. The only difference here is that whenever you click on a stock, you are redirected to the stock details view of the app.
-
-Great! So far we have gotten ourselves acquainted with the start files, we launched all the apps and installed them as PWAs. Next, we are now going to set up our Glue42 Core Environment using the CLI.
-
-### 1.2. Getting Started with the Glue42 Core CLI
-
-Now we are going to use the [**Glue42 Core CLI**](../../glue42-core/what-is-glue42-core/core-concepts/cli/index.html) to initiate our environment. For that you will need to install the Glue42 Core CLI first and then call the `init` command, which will set up your dev environment.
-Make sure you run the `init` command in `/tutorials/vanilla-js/start`
+Now, you are going to use the [**Glue42 CLI**](../../glue42-core/what-is-glue42-core/core-concepts/cli/index.html) to automatically setup all necessary [Glue42 Environment](../../core/core-concepts/environment/overview/index.html) files. Install the Glue42 CLI globally and then run its `init` command in the `/tutorials/javascript/start` directory:
 
 ```cmd
 npm install --global @glue42/cli-core
 
 gluec init
 ```
-or it can be done this way:
+Or:
 
 ```cmd
 npm install --save-dev @glue42/cli-core
@@ -110,9 +101,11 @@ npm install --save-dev @glue42/cli-core
 npx gluec init
 ```
 
-This command will get the necessary dependencies and scaffold the necessary config files for us. Next, we are going to stop using the simple http server that comes with the start files and utilize the CLI's serve functionality. This is very useful, as it allows us to serve or proxy to our apps, define shared resources and serve the [**Glue42 Core Environment**](../../glue42-core/what-is-glue42-core/core-concepts/environment/index.html) correctly.
+This will install the necessary dependencies and scaffold the necessary configuration files for you. 
 
-To do all of that open the `glue.config.dev.json` file. Then add the shared resources, the clients and stocks apps. You can check out how to do that in the Getting Started **TODO: Link** section. Your file should look something like this:
+Next, you have to configure the development server that the Glue42 CLI provides. The development server allows you to serve or proxy to your apps, define shared resources and serve the [Glue42 Environment](../../core/core-concepts/environment/overview/index.html) files correctly.
+
+Open the `glue.config.dev.json` file that was created in the `/start` directory with the `init` command of the Glue42 CLI. Define the shared resources and the apps in the project. For detailed information on how to configure the `glue.config.dev.json` file, see the [**Glue42 CLI**](../../core/core-concepts/cli/index.html#configuration) documentation, or simply copy the configuration of the `apps` and `sharedAssets` properties below if you are using the default tutorial structure and files:
 
 ```json
 {
@@ -162,23 +155,25 @@ To do all of that open the `glue.config.dev.json` file. Then add the shared reso
 }
 ```
 
-Next we open a terminal and:
+To launch the development server, run the `serve` command in the `start` directory:
 
 ```cmd
 gluec serve
 ```
 
-This command will launch a dev server at port **:4242** and will serve everything we defined, together with the [**Glue42 Core Environment**](../../glue42-core/what-is-glue42-core/core-concepts/environment/index.html).
+All files and apps defined in the `glue.config.dev.json` file are now served at `localhost:4242`. 
 
-Now you can once again open your apps, but this time at `localhost:4242` and see that nothing really changed, at least that's how it seems. Do **note** that you will need to install the apps again and preferably remove the old onces, because they will route to port **:4000**.
+Open the browser at `localhost:4242/clients` and explore the Clients app. It is just a list of clients fetched from the REST server you started at the beginning. Clicking on a client will not do anything. If you look at the right side of the browser address bar, however, you will see an icon with the option to install the app. Once installed, you can launch it by going to `chrome://apps` (if you are use Google Chrome) and clicking on its icon.
 
-So far, so good, we have a Glue42 Core project up and running, now let's transform our two apps into [**Glue42 Clients**](../../glue42-core/what-is-glue42-core/core-concepts/glue42-client/index.html), by initializing the Glue42 Web library in each of them.
+Repeat this with `localhost:4000/stocks` to explore the Stocks app. It is just a simple list of stocks. The only difference here is that if you click on a stock, you will be redirected to the Stock Details view of the app. Once again you can install the app as a PWA.
 
-### 1.3. Getting Started with the Solution files
+You now have a running multi-application **Glue42 Core** project. Next, you will transform the two apps into [**Glue42 Clients**](../../core/core-concepts/glue42-client/overview/index.html) by initializing the [**Glue42 Web**](../../reference/core/latest/glue42%20web/index.html) library in each of them.
 
-Before we start coding, let's take a moment to talk about running the **solution**. You are free to use it as you like - you can check after each section to see what we have done to solve the problem, or you can use it as an example in case you get stuck somewhere.
+### 1.4. Solution Files
 
-First, launch the `/rest-server` (if you have stopped it), then go to the `/vanilla-js/solution` directory, open a terminal, install the node dependencies and launch your project with the CLI:
+Before you continue with the project, take a look at the `/solution` directory. It contains the complete solution of the **Glue42 Core** JavaScript tutorial. You can use it after each section to compare it to your solution of the problem, or you can use it as a help reference in case you get stuck on something.
+
+To run the solution project, launch the REST server providing the app data (see [1.1. Data REST Server](#1_setup-11_data_rest_server) above), open a command prompt in the `/javascript/solution` directory, install the dependencies and launch the solution project with the Glue42 CLI:
 
 ```cmd
 npm i
@@ -186,9 +181,9 @@ npm i
 gluec serve
 ```
 
-You can now access the clients app at `localhost:4242/clients` and the stocks app at `localhost:4242/stocks`.
+You can now access the Clients app at `localhost:4242/clients` and the stocks app at `localhost:4242/stocks`.
 
-## 2. Initializing Glue Web
+## 2. Initializing Glue42 Web
 
 Go over to each one of the `Clients/index.html`, `Stocks/index.html`, and `Stocks/details/index.html` pages, and include a new `<script>` after the **<!--TODO: Chapter 2-->** and before `<script src="./index.js">`, if it is present, which references the Glue42 Web script in the lib directory:
 

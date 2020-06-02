@@ -50,7 +50,7 @@ Go to the [Quick Start](../getting-started/quick-start/index.html) section to se
 
 - #### Is there a more in-depth tutorial for Glue42 Core?	
 
-Yes, there are complete and detailed [JavaScript](../../tutorials/vanilla-js/index.html), [React](../../tutorials/react/index.html) and [Angular](../../tutorials/angular/index.html) tutorials about **Glue42 Core**.	
+Yes, there are complete and detailed [JavaScript](../../tutorials/core-js/index.html), [React](../../tutorials/react/index.html) and [Angular](../../tutorials/angular/index.html) tutorials about **Glue42 Core**.	
 
 - #### I am a React developer. Is there any React documentation/tutorial about Glue42 Core?	
 
