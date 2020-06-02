@@ -185,7 +185,7 @@ You can now access the Clients app at `localhost:4242/clients` and the stocks ap
 
 ## 2. Initializing Glue42 Web
 
-Go over to each one of the `Clients/index.html`, `Stocks/index.html`, and `Stocks/details/index.html` pages, and include a new `<script>` after the **<!--TODO: Chapter 2-->** and before `<script src="./index.js">`, if it is present, which references the Glue42 Web script in the lib directory:
+Open the `index.html` files in `/Clients`, `/Stocks`, and `/Stocks/details` and reference the [**Glue42 Web**](../../reference/core/latest/glue42%20web/index.html) library file located in the `/lib` directory in a new `<script>` tag, replacing the `TODO: Chapter 2` comment:
 
 ```html
 <script src="/lib/web.umd.min.js"></script>
